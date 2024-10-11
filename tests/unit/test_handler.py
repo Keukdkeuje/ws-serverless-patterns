@@ -16,6 +16,7 @@ UUID_MOCK_VALUE_JANE = '31a9f940-917b-11eb-9054-67837e2c40b0'
 UUID_MOCK_VALUE_NEW_USER = 'new-user-guid'
 
 
+
 def mock_uuid():
     return UUID_MOCK_VALUE_NEW_USER
 
@@ -23,13 +24,14 @@ def mock_uuid():
 @contextmanager
 def my_test_environment():
     with mock_dynamodb():
-        set_up_dynamodb()
+        set_up_dynamodb()   
         put_data_dynamodb()
         yield
 
 def set_up_dynamodb():
     conn = boto3.client(
-        'dynamodb'
+        'dynamodb',
+        region_name='us-west-2'
     )
     conn.create_table(
         TableName=USERS_MOCK_TABLE_NAME,
@@ -47,7 +49,8 @@ def set_up_dynamodb():
 
 def put_data_dynamodb():
     conn = boto3.client(
-        'dynamodb'
+        'dynamodb',
+        region_name='us-west-2'
     )
     conn.put_item(
         TableName=USERS_MOCK_TABLE_NAME,
